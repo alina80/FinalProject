@@ -1,0 +1,36 @@
+{% extends '::base.html.twig' %}
+{% block sidebar %}
+    <div class="card my-4">
+        <h5 class="card-header">Categories</h5>
+        <div class="card-body">
+
+            <ul>
+                {% for cat in categories %}
+                    <div class="card-body">
+                        <a href="{{ path('category',{'id':cat.id}) }}">{{ cat.name }}</a>
+                    </div>
+                {% endfor %}
+            </ul>
+
+        </div>
+    </div>
+{% endblock %}
+{% block body %}
+    <div class="container">
+        <div class="row mt-4">
+            <ul>
+            <div>
+           <h2>PetShop</h2>
+            </div>
+            <div>
+           <p>
+            <b>Some description</b>
+            </p>
+            </div>
+            <div>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras commodo sit amet augue aliquet molestie. Nulla vel dolor quis diam iaculis porta. Suspendisse imperdiet massa scelerisque blandit imperdiet. Donec dui magna, iaculis vel metus in, pulvinar feugiat quam. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Nulla vitae mi neque. Cras eros libero, molestie ac porta vestibulum, malesuada in felis. Aenean aliquam rhoncus neque. Suspendisse potenti. Donec congue blandit eros faucibus eleifend. Praesent consectetur nisl sodales, mattis massa eu, malesuada urna. Curabitur ullamcorper finibus nulla, ac volutpat lacus facilisis eu. Cras vel volutpat est. </p>
+            </div>
+            </ul>
+        </div>
+    </div>
+{% endblock %}

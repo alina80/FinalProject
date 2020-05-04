@@ -4,6 +4,7 @@ namespace AppBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 class DefaultController extends Controller
@@ -11,11 +12,114 @@ class DefaultController extends Controller
     /**
      * @Route("/", name="homepage")
      */
-    public function indexAction(Request $request)
+    public function homeAction(Request $request)
     {
-        // replace this example code with whatever you need
-        return $this->render('default/index.html.twig', [
-            'base_dir' => realpath($this->getParameter('kernel.project_dir')).DIRECTORY_SEPARATOR,
+        $catRepo = $this->getDoctrine()->getManager()->getRepository('AppBundle:Category');
+        $prodRepo = $this->getDoctrine()->getManager()->getRepository('AppBundle:Product');
+        $categories = $catRepo->findAll();
+        $products = $prodRepo->findAll();
+        return $this->render('AppBundle:Default:home.html.twig', [
+            'categories'=>$categories,
+            'products'=>$products
+        ]);
+    }
+
+    /**
+     * @Route("/category/{id}", name="category")
+     */
+    public function categoryAction($id)
+    {
+        $catRepo = $this->getDoctrine()->getManager()->getRepository('AppBundle:Category');
+        $category = $catRepo->findOneById($id);
+        $categories = $catRepo->findAll();
+        return $this->render('AppBundle:Default:category.html.twig', [
+            'products'=>$category->getProducts(),
+            'categories'=>$categories
+            ]);
+    }
+
+    /**
+     * @Route("/product/{id}",name="product")
+     */
+    public function productAction(Request $request, $id)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $cookie = $request->cookies->get('Uid');
+        $cartRepo = $this->getDoctrine()->getManager()->getRepository('AppBundle:Cart');
+        $cartItemRepo = $this->getDoctrine()->getManager()->getRepository('AppBundle:CartItem');
+        $cartItem = null;
+        if($cookie){
+            $cart = $cartRepo->findOneByCookie($cookie);
+            $cartItem = $cartItemRepo->findOneBy([
+               'cartId'=>$cart->getId(),
+                'productId'=>$id
+            ]);
+        }
+        $catRepo = $this->getDoctrine()->getManager()->getRepository('AppBundle:Category');
+        $prodRepo = $this->getDoctrine()->getManager()->getRepository('AppBundle:Product');
+        $categories = $catRepo->findAll();
+        $products = $prodRepo->findAll();
+
+        $product = $prodRepo->findOneById($id);
+
+        $photos = $prodRepo->find($id)->getPhotos();
+        $cartItems = $cartItemRepo->findAll();
+        return $this->render('AppBundle:Default:product.html.twig', [
+            'product'=>$product,
+            'categories'=>$categories,
+            'products'=>$products,
+            'photos'=>$photos,
+            'cartItems'=>$cartItems,
+            'cartItem'=>$cartItem
+        ]);
+    }
+
+    /**
+     * @Route("/search/{id}",name="search")
+     */
+    public function searchAction($id)
+    {
+        $catRepo = $this->getDoctrine()->getManager()->getRepository('AppBundle:Category');
+        $prodRepo = $this->getDoctrine()->getManager()->getRepository('AppBundle:Product');
+        $categories = $catRepo->findAll();
+        $products = $prodRepo->findAll();
+
+        $prodRepo = $this->getDoctrine()->getManager()->getRepository('AppBundle:Product');
+        $product = $prodRepo->findOneById($id);
+        return $this->render('AppBundle:Default:search.html.twig', [
+            'product'=>$product,
+            'categories'=>$categories,
+            'products'=>$products
+        ]);
+    }
+
+    /**
+     * @Route("/about", name="about")
+     */
+    public function aboutAction()
+    {
+        $catRepo = $this->getDoctrine()->getManager()->getRepository('AppBundle:Category');
+        $prodRepo = $this->getDoctrine()->getManager()->getRepository('AppBundle:Product');
+        $categories = $catRepo->findAll();
+        $products = $prodRepo->findAll();
+        return $this->render('AppBundle:Default:about.html.twig',[
+            'categories'=>$categories,
+            'products'=>$products
+        ]);
+    }
+
+    /**
+     * @Route("/contact", name="contact")
+     */
+    public function contactAction()
+    {
+        $catRepo = $this->getDoctrine()->getManager()->getRepository('AppBundle:Category');
+        $prodRepo = $this->getDoctrine()->getManager()->getRepository('AppBundle:Product');
+        $categories = $catRepo->findAll();
+        $products = $prodRepo->findAll();
+        return $this->render('AppBundle:Default:contact.html.twig',[
+            'categories'=>$categories,
+            'products'=>$products
         ]);
     }
 }

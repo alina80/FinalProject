@@ -1,0 +1,59 @@
+{% extends '::admin.html.twig' %}
+{% block body %}
+    <div class="row">
+        <div class="col-12 mb-3">
+            <h1>Photos for {{ product.name }}</h1>
+            <div><a href="{{ path('app_admin_listproducts') }}" class="btn btn-primary"><i class="fa fa-arrow-left"></i> back</a> </div>
+        </div>
+        <div>
+            <form action="{{ path('app_admin_addphoto',{id:product.id}) }}" method="POST" enctype="multipart/form-data">
+                <div class="form-group">
+                    <label for="photo">Load photo</label>
+                    tab  <input type="file" class="form-control-file" id="photo" name="photo">
+                </div>
+                <input type="submit" value="upload" class="btn btn-primary"/>
+            </form>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12">
+            <form id="frmSetMain" action="{{ path('app_admin_setmain',{'id':product.id}) }}" method="post">
+                <table class="table">
+                    <thead>
+                    <th>#</th>
+                    <th>Photo</th>
+                    <th>Is Main</th>
+                    <th>&nbsp;</th>
+                    </thead>
+                    <tbody>
+                    {% for photo in photos %}
+                        <tr>
+                            <td>#{{ photo.id }}</td>
+                            <td>
+                                {# de folosit la afisarea pozelor in pagina#}
+                                <img src="/uploads/photos/{{ photo.path }}" width="150">
+                            </td>
+                            <td>
+                                <input type="radio" class="radiosIsMain" value="{{ photo.id }}" {% if photo.isMain == 1 %}checked{% endif %} name="isMain"/>
+                            </td>
+                            <td>
+                                <a href="{{ path('app_admin_deletephoto',{id:photo.id}) }}" class="text-danger"><i class="fa fa-times"></i> </a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </form>
+        </div>
+    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded',function (e) {
+            document.querySelectorAll('.radiosIsMain').forEach(function (elem) {
+                elem.addEventListener('click',function (e) {
+                    document.getElementById('frmSetMain').submit();
+                })
+            });
+        })
+
+    </script>
+{% endblock %}
