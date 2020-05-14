@@ -11,8 +11,9 @@
     <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
 </head>
 <body>
+
 <header>
-    <nav class="navbar navbar-expand-lg navbar-light" style="background-color: green">
+    <nav class="navbar navbar-expand-lg container-fluid" style="background-color: green;color: #C9C9C9">
 
         <a class="navbar-brand" href="#">PetShop</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -46,7 +47,7 @@
             <form class="form-inline my-2 my-lg-0">
                 <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
                 <button class="btn btn-outline-success my-2 my-sm-0" type="submit">
-                    <a href="#">Search
+                    <a href="#" style="color: #C9C9C9">Search
                     </a>
                 </button>
             </form>
@@ -66,9 +67,9 @@
         </div>
     </nav>
 </header>
-<main class="container-lg">
 
 
+<main>
     <div class="container mt-4">
         <div class="row">
             <div class="col-md-3">
@@ -81,51 +82,64 @@
     </div>
 
 </main>
-<footer style="background-color: #333333;color: #C9C9C9;">
-    <div class="container">
-        <div class="row">
-            <div class="col-4 mt-4">
-                <ul>
-                    <div><b>Categories</b></div>
-                    {% for cat in categories %}
-                        <div>
-                            <a class="dropdown-item" style="color: #C9C9C9;" href="{{ path('category',{'id':cat.id}) }}">{{ cat.name }}</a>
-                        </div>
-                    {% endfor %}
-                </ul>
+
+
+    <!-- Site footer -->
+    <footer class="site-footer">
+        <div class="container-lg">
+            <div class="row">
+                <div class="col-sm-12 col-md-6">
+                    <h6>About</h6>
+                    <ul class="footer-links">
+                      <li>
+                        <a class="nav-link" href="{{ path('about') }}">About us</a>
+                      </li>
+                    </ul>
+                </div>
+
+                <div class="col-xs-6 col-md-3">
+                    <h6>Categories</h6>
+                    <ul class="footer-links">
+                        {% for category in categories %}
+                            <li><a href="{{ path('category', {id:category.id}) }}">{{ category.name }}</a></li>
+                        {% endfor %}
+                    </ul>
+                </div>
+
+                <div class="col-xs-6 col-md-3">
+                    <h6>Quick Links</h6>
+                    <ul class="footer-links">
+                        <li><a href="#">Help</a></li>
+                        <li><a href="#">Contact Us</a></li>
+                        <li><a href="#">Privacy Policy</a></li>
+                        <li><a href="#">Sitemap</a></li>
+                    </ul>
+                </div>
             </div>
-        <div class="col-4 mt-4">
-          <div class="container">
-              <div class="row">
-
-                <div class="col-4">
-                    <a href="https://www.facebook.com/facebook" style="vertical-align:middle;color: #C9C9C9;size: 200em"><i class="fa fa-facebook-square"></i></a>
-                    <a href="https://www.instagram.com/" style="vertical-align:middle;color: #C9C9C9;"><i class="fa fa-instagram-square"></i></a>
-                    <a href="https://twitter.com/?lang=en" style="vertical-align:middle;color: #C9C9C9;"><i class="fa fa-twitter-square"></i></a>
-                </div>
-
-              </div>
-          </div>
+            <hr>
         </div>
-        <div class="col-4 mt-4">
-            <b>Usefull Links</b>
-            <ul>
-                <div>
-                    <a href="{{ path('about') }}" style="color: #C9C9C9;">About us</a>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-8 col-sm-6 col-xs-12">
+                    <p class="copyright-text">Copyright &copy; 2020 All Rights Reserved
+                        <a href="#"></a>.
+                    </p>
                 </div>
-                <div>
-                    <a href="{{ path('contact') }}" style="color: #C9C9C9;">Contact</a>
-                </div>
-                <div>
-                    <a href="#" style="color: #C9C9C9;">Terms and conditions</a>
-                </div>
-            </ul>
 
+                <div class="col-md-4 col-sm-6 col-xs-12">
+                    <ul class="social-icons">
+                        <li><a class="facebook" href="#"><i class="fa fa-facebook"></i></a></li>
+                        <li><a class="twitter" href="#"><i class="fa fa-twitter"></i></a></li>
+                        <li><a class="linkedin" href="#"><i class="fa fa-linkedin"></i></a></li>
+                    </ul>
+                </div>
+            </div>
         </div>
-    </div>
-    </div>
-    <section class="col-md-12 bg-default text-center" style="color: #C9C9C9">CodersLab@FinalProject</section>
-</footer>
+    </footer>
+
+
+
+
 {% block javascripts %}
     <script src="https://code.jquery.com/jquery-3.5.0.min.js" integrity="sha256-xNzN2a4ltkB44Mc/Jz3pT4iU1cmeR0FkXs4pru/JxaQ=" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>

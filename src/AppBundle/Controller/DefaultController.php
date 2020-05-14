@@ -2,12 +2,16 @@
 
 namespace AppBundle\Controller;
 
+use Doctrine\ORM\Tools\Pagination\Paginator;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 class DefaultController extends Controller
+
+
+
 {
     /**
      * @Route("/", name="homepage")
@@ -18,9 +22,19 @@ class DefaultController extends Controller
         $prodRepo = $this->getDoctrine()->getManager()->getRepository('AppBundle:Product');
         $categories = $catRepo->findAll();
         $products = $prodRepo->findAll();
+        /**
+         * @var $paginator \Knp\Component\Pager\Paginator
+        */
+        $paginator = $this->get('knp_paginator');
+        $pagination = $paginator->paginate(
+            $products,
+            $request->query->getInt('page', 1), /*page number*/
+            6 /*limit per page*/
+        );
+
         return $this->render('AppBundle:Default:home.html.twig', [
             'categories'=>$categories,
-            'products'=>$products
+            'products'=>$pagination
         ]);
     }
 
@@ -72,6 +86,7 @@ class DefaultController extends Controller
             'cartItems'=>$cartItems,
             'cartItem'=>$cartItem
         ]);
+
     }
 
     /**
